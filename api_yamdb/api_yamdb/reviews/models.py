@@ -2,6 +2,7 @@ from django.core.validators import (MaxValueValidator, MinValueValidator,
                                     validate_slug)
 from django.db import models
 from users.models import User
+from .validators import check_value_year_valid
 
 
 class Category(models.Model):
@@ -19,7 +20,7 @@ class Category(models.Model):
 
     def __str__(self):
         return self.slug
-    
+
 
 class Genre(models.Model):
     name = models.CharField(max_length=256, unique=True)
@@ -70,8 +71,3 @@ class Title(models.Model):
 
     def __str__(self):
         return self.name
-
-
-
-
-
