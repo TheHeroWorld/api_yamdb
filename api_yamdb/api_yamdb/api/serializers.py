@@ -23,7 +23,7 @@ class ReviewSerializer(serializers.ModelSerializer):
         )
 
 
-class CommentSerializerMethod(serializers.ModelSerializer):
+class CommentSerializer(serializers.ModelSerializer):
     """Сериалайзер для комментариев."""
     author = serializers.SlugRelatedField(
         slug_field='username',
