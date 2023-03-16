@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from reviews.models import Review, Comments
+from reviews.models import Review, Comment, Title
 
 
 class ReviewSerializer(serializers.ModelSerializer):
@@ -23,7 +23,7 @@ class ReviewSerializer(serializers.ModelSerializer):
         )
 
 
-class CommentsSerializerMethod(serializers.ModelSerializer):
+class CommentSerializerMethod(serializers.ModelSerializer):
     """Сериалайзер для комментариев."""
     author = serializers.SlugRelatedField(
         slug_field='username',
@@ -31,7 +31,7 @@ class CommentsSerializerMethod(serializers.ModelSerializer):
     )
 
     class Meta:
-        model = Comments
+        model = Comment
         fields = (
             'id',
             'text',
