@@ -18,4 +18,3 @@ class AdminAllPermission(permissions.BasePermission):
         if request.method in permissions.SAFE_METHODS:
             return True
         return bool(request.user.is_superuser or request.user.is_admin)
-    
