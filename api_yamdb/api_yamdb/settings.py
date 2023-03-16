@@ -1,16 +1,16 @@
 import os
-from datetime import timedelta
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
+# Держите в секрете этот ключ
 SECRET_KEY = 'p&l%385148kslhtyn^##a1)ilz@4zqj=rq&agdol^##zgl9(vs'
-
 
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+
+# Установки APP
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -19,11 +19,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django_filters',
-    'rest_framework',
     'reviews.apps.ReviewsConfig',
-    'api.apps.ApiConfig',
-    'users.apps.UsersConfig',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
@@ -58,7 +55,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'api_yamdb.wsgi.application'
 
 
-# Database
+# БД
 
 DATABASES = {
     'default': {
@@ -67,6 +64,8 @@ DATABASES = {
     }
 }
 
+
+# Валидация пароля
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -84,7 +83,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-LANGUAGE_CODE = 'ru'
+LANGUAGE_CODE = 'ru-RU'
 
 TIME_ZONE = 'UTC'
 
@@ -94,28 +93,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static/'),)
-
-
-REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
-    ],
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ),
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 100
-}
-
-SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
-    'AUTH_HEADER_TYPES': ('Bearer',),
-}
-
-AUTH_USER_MODEL = 'users.User'
-
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
