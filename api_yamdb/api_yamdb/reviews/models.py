@@ -1,6 +1,4 @@
-from django.core.validators import (
-    MaxValueValidator, MinValueValidator, validate_slug
-    )
+from django.core.validators import validate_slug
 from django.db import models
 from .validators import check_value_year_valid
 
@@ -57,7 +55,7 @@ class Title(models.Model):
         verbose_name='Жанр'
     )
     description = models.TextField(null=True, blank=True)
-    year = models.PositiveSmallIntegerField(
+    year = models.IntegerField(
         blank=False,
         null=False,
         validators=[check_value_year_valid],
@@ -67,7 +65,6 @@ class Title(models.Model):
     class Meta:
         verbose_name = 'Произведение'
         verbose_name_plural = 'Произведения'
-        ordering = ['category', 'name']
 
     def __str__(self):
         return self.name

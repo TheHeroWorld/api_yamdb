@@ -1,10 +1,9 @@
-#from django.db.models import Avg
 from rest_framework import viewsets, filters, mixins
 from reviews.models import Category, Genre, Title
 from .serializers import (
     TitlesSerializerMethod, TitlesSerializer,
     CategorySerializer, GenreSerializer
-    )
+)
 from .pagination import CategoryPagination, GenrePagination, TitlesPagination
 
 
@@ -25,7 +24,6 @@ class GenreViewSet(ListCreateDestroyModelViewSet):
     """Вьюсет для Genre."""
     queryset = Genre.objects.all()
     serializer_class = GenreSerializer
-    #Permission_classes = (IsAuthenticatedOrReadOnly, AdminAllPermission,)
     pagination_class = GenrePagination
     lookup_field = 'slug'
     filter_backends = (filters.SearchFilter,)
@@ -36,7 +34,6 @@ class CategoryViewSet(ListCreateDestroyModelViewSet):
     """Вьюсет для Category."""
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
-    #permission_classes = (IsAuthenticatedOrReadOnly, AdminAllPermission,)
     pagination_class = CategoryPagination
     search_fields = ('^name',)
     lookup_field = 'slug'
@@ -46,8 +43,6 @@ class CategoryViewSet(ListCreateDestroyModelViewSet):
 class TitlesViewSet(viewsets.ModelViewSet):
     """Вьюсет для Title."""
     queryset = (Title.objects.all())
-    #queryset = Title.objects.annotate(rating=Avg('reviews__score')).all()
-    #permission_classes = (IsAuthenticatedOrReadOnly, AdminAllPermission,)
     pagination_class = TitlesPagination
     filter_backends = (filters.SearchFilter,)
 
