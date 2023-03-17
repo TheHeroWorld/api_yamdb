@@ -26,8 +26,8 @@ def create_user(request):
     serializer.save(confirmation_code=confirmation_code)
 
     send_mail(
-        subject='Регестрация в yamdb',
-        message=f'Код подвтерждения {confirmation_code}',
+        subject='Registration from YaMDB',
+        message=f'Your confirmation code is {confirmation_code}',
         from_email=settings.ADMIN_EMAIL,
         recipient_list=(request.data['email'],))
 

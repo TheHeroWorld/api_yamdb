@@ -2,9 +2,6 @@ from rest_framework.permissions import BasePermission, SAFE_METHODS
 
 
 class AdminAndSuperuserOnly(BasePermission):
-    """Разрешение контролирующее разрешение
-    только для пользователей с ролью администратор
-    и ролью суперпользователя"""
 
     def has_permission(self, request, view):
         return (
@@ -16,9 +13,6 @@ class AdminAndSuperuserOnly(BasePermission):
 
 
 class AuthenticatedPrivilegedUsersOrReadOnly(BasePermission):
-    """Разрешение доступа на чтение всем и
-    на редактирование только автору и
-    администратору/модератору/суперпользователю"""
 
     def has_permission(self, request, view):
         return (

@@ -1,58 +1,46 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
+USER_ROLE = 'user'
+MODERATOR_ROLE = 'moderator'
+ADMIN_ROLE = 'admin'
+
+ROLE_CHOICES = (
+    (USER_ROLE, 'Пользователь'),
+    (MODERATOR_ROLE, 'Модератор'),
+    (ADMIN_ROLE, 'Администратор'),
+)
+
 
 class User(AbstractUser):
-    ADMIN = 'admin'
-    MODERATOR = 'moderator'
-    USER = 'user'
-    ROLES = (
-        (ADMIN, 'admin'),
-        (MODERATOR, 'moderator'),
-        (USER, 'user'),
-    )
+    """Пользователь проекта YaMDB"""
 
-    id = models.BigAutoField(primary_key=True)
-
-    username = models.CharField(
-        verbose_name='Имя пользователя',
-        help_text='Имя пользователя',
-        max_length=20,
-        unique=True
-    )
-    email = models.EmailField(
-        verbose_name='Почта пользавотеля',
-        help_text='Адрес электронной почты',
-        unique=True
-    )
     role = models.CharField(
-        verbose_name='Статус пользователя',
-        help_text='Права предоставляемые пользователю',
         max_length=20,
-        choices=ROLES,
-        default='user'
+        choices=ROLE_CHOICES,
+        default=USER_ROLE,
+        blank=True
     )
+    email = models.EmailField(max_length=254, unique=True)
     bio = models.TextField(
         verbose_name='Биография',
-        help_text='Краткая биография пользователя',
-        blank=True,
+        max_length=1024,
+        blank=True
     )
-
-    @property
-    def is_moderator(self):
-        return self.role == self.MODERATOR
+    confirmation_code = models.CharField(
+        max_length=5,
+        verbose_name='Код подтверждения',
+        blank=True
+    )
 
     @property
     def is_admin(self):
-        return self.role == self.ADMIN
+        return self.role == ADMIN_ROLE
 
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ('username', )
+    @property
+    def is_user(self):
+        return self.role == USER_ROLE
 
-    class Meta:
-        ordering = ('id', )
-        verbose_name = 'Пользователь'
-        verbose_name_plural = 'Пользователи'
-
-    def __str__(self):
-        return self.username
+    @property
+    def is_moderator(self):
+        return self.role == MODERATOR_ROLE
