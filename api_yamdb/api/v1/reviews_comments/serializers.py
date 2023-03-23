@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from rest_framework.relations import SlugRelatedField
 
-from reviews.models import Comment, Review, Book
+from reviews.models import Comment, Review
 
 
 class ReviewSerializer(serializers.ModelSerializer):
@@ -12,14 +12,6 @@ class ReviewSerializer(serializers.ModelSerializer):
         default=serializers.CurrentUserDefault(),
         read_only=True
     )
-
-    def validate_title(self, value):
-        try:
-            Book.objects.get(pk=value)
-        except Book.DoesNotExist:
-            raise serializers.ValidationError("Такого произведения"
-                                              "не существует")
-        return value
 
     def validate(self, data):
         if self.context['request'].method == 'POST':
