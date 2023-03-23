@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from rest_framework.relations import SlugRelatedField
 
-from reviews.models import Comment, Review
+from reviews.models import Comment, Review, Book
 
 
 class ReviewSerializer(serializers.ModelSerializer):
@@ -17,20 +17,21 @@ class ReviewSerializer(serializers.ModelSerializer):
         try:
             Book.objects.get(pk=value)
         except Book.DoesNotExist:
-            raise serializers.ValidationError('Такого произведения не существует')
+            raise serializers.ValidationError("Такого произведения"
+                                              "не существует")
         return value
 
-    def validate(self, data): 
-        if self.context['request'].method == 'POST': 
-            if Review.objects.filter( 
-                author=self.context['request'].user, 
-                title=self.context['view'].kwargs.get('title_id') 
-            ).exists(): 
-                raise serializers.ValidationError( 
-                    'Нельзя оставить отзыв на одно произведение дважды' 
-                ) 
+    def validate(self, data):
+        if self.context['request'].method == 'POST':
+            if Review.objects.filter(
+                author=self.context['request'].user,
+                title=self.context['view'].kwargs.get('title_id')
+            ).exists():
+                raise serializers.ValidationError(
+                    'Нельзя оставить отзыв на одно произведение дважды'
+                )
         return data
-    
+
     class Meta:
         model = Review
         fields = '__all__'

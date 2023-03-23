@@ -11,14 +11,15 @@ class UserCreateSerializer(serializers.ModelSerializer):
         model = User
         fields = ('username', 'email')
 
-    def validate_username(self, value): 
-        if value == 'me': 
-            raise serializers.ValidationError( 
-                'Имя пользователя не может быть "me"' 
-            ) 
+    def validate_username(self, value):
+        if value == 'me':
+            raise serializers.ValidationError(
+                'Имя пользователя не может быть "me"'
+            )
         if not re.match(r'^[a-zA-Z0-9_]*$', value):
             raise serializers.ValidationError(
-                'Имя пользователя может содержать только буквы, цифры и символ подчеркивания'
+                "Имя пользователя может содержать только буквы,"
+                "цифры и символ подчеркивания"
             )
         return value
 
