@@ -71,7 +71,7 @@ def create_token(request):
 
     if not username or not confirmation_code:
         return Response(
-            {'error': 'Поля "username" и/или "confirmation_code" не указаны.'},,
+            {'error': 'Поля "username" и/или "confirmation_code" не указаны.'},
             status=status.HTTP_400_BAD_REQUEST
         )
 

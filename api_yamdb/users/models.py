@@ -32,14 +32,14 @@ class User(AbstractUser):
         default=USER,
     )
     username = models.CharField(
-            verbose_name='Имя пользователя',
-            max_length=150,
-            unique=True,
-            validators=[
-                RegexValidator(
-                    regex='^[a-zA-Z0-9_]*$',
-                    message="Имя пользователя может содержать только буквы,"
-                    "цифры и символ подчеркивания")])
+        verbose_name='Имя пользователя',
+        max_length=150,
+        unique=True,
+        validators=[
+            RegexValidator(
+                regex='^[a-zA-Z0-9_]*$',
+                message="Имя пользователя может содержать только буквы,"
+                "цифры и символ подчеркивания")])
 
     def validate_username(value):
         if value.lower() == 'me':
