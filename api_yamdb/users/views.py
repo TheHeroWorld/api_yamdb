@@ -45,7 +45,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
     @action(
         detail=False,
-        methods=['get', 'patch'],
+        methods=['patch', 'get'],
         url_path='me',
         permission_classes=[IsAuthenticated, ]
     )
@@ -71,13 +71,13 @@ def create_token(request):
 
     if not username or not confirmation_code:
         return Response(
-            'Одно или несколько полей пропущено',
+            {'error': 'Поля "username" и/или "confirmation_code" не указаны.'},,
             status=status.HTTP_400_BAD_REQUEST
         )
 
     if not User.objects.filter(username=username).exists():
         return Response(
-            'Имя пользователя неверное',
+            'Имя пользавотеля указанно неверно',
             status=status.HTTP_404_NOT_FOUND
         )
 

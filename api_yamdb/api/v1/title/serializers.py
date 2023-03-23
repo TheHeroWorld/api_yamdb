@@ -21,8 +21,16 @@ class TitleWriteSerializer(serializers.ModelSerializer):
     )
 
     class Meta:
-        fields = '__all__'
+        fields = (
+            'id',
+            'name',
+            'year',
+            'description',
+            'genre',
+            'category'
+        )
         model = Title
+        read_only_fields = ('genre', 'category')
 
 
 class TitleReadSerializer(serializers.ModelSerializer):
@@ -34,5 +42,14 @@ class TitleReadSerializer(serializers.ModelSerializer):
     rating = serializers.IntegerField(read_only=True)
 
     class Meta:
-        fields = '__all__'
+        fields = (
+            'id',
+            'name',
+            'year',
+            'description',
+            'genre',
+            'category',
+            "rating"
+        )
         model = Title
+        read_only_fields = ('genre', 'category',"rating")

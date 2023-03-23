@@ -13,21 +13,28 @@ class ReviewSerializer(serializers.ModelSerializer):
         read_only=True
     )
 
+    def validate_title(self, value):
+        try:
+            Book.objects.get(pk=value)
+        except Book.DoesNotExist:
+            raise serializers.ValidationError('Такого произведения не существует')
+        return value
+
+    def validate(self, data): 
+        if self.context['request'].method == 'POST': 
+            if Review.objects.filter( 
+                author=self.context['request'].user, 
+                title=self.context['view'].kwargs.get('title_id') 
+            ).exists(): 
+                raise serializers.ValidationError( 
+                    'Нельзя оставить отзыв на одно произведение дважды' 
+                ) 
+        return data
+    
     class Meta:
         model = Review
         fields = '__all__'
         read_only_fields = ('title', 'author')
-
-    def validate(self, data):
-        if self.context['request'].method == 'POST':
-            if Review.objects.filter(
-                author=self.context['request'].user,
-                title=self.context['view'].kwargs.get('title_id')
-            ).exists():
-                raise serializers.ValidationError(
-                    'Нельзя оставить отзыв на одно произведение дважды'
-                )
-        return data
 
 
 class CommentSerializer(serializers.ModelSerializer):
@@ -41,5 +48,5 @@ class CommentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Comment
-        fields = '__all__'
+        fields = ['id', 'text', 'author', 'pub_date']
         read_only_fields = ('review', 'author')

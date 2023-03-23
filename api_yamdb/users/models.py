@@ -2,6 +2,7 @@ from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.core.validators import RegexValidator
 
 
 class User(AbstractUser):
@@ -29,6 +30,30 @@ class User(AbstractUser):
         choices=ROLES,
         default=USER,
     )
+    username = models.CharField(
+            verbose_name='Имя пользователя',
+            max_length=150,
+            unique=True,
+            validators=[
+                RegexValidator(
+                    regex='^[a-zA-Z0-9_]*$',
+                    message='Имя пользователя может содержать только буквы, цифры и символ подчеркивания'
+                )
+            ]
+        )
+    
+    def validate_username(value): 
+        if value.lower() == 'me': 
+            raise ValidationError( 
+                f'{value} зарезервированно системой.' 
+            ) 
+        if not re.match(r'^[\w.@+-]+', value): 
+            raise ValidationError( 
+                f'{value} содержит неизвестные символы.')
+
+    def __str__(self):
+        return f'{self.username} ({self.email})'
+
 
     class Meta:
         ordering = ('-id',)
@@ -43,8 +68,8 @@ class User(AbstractUser):
 
     def clean(self):
         if self.username == 'me':
-            raise ValidationError('Me недоустно для регистрации')
-        super(User, self).clean()
+            raise ValidationError('Me недоступно для регистрации')
+        super().clean()
 
     @property
     def is_admin(self):

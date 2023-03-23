@@ -9,6 +9,8 @@ from .validators import year_validator
 User = get_user_model()
 
 
+leght = 256
+
 class BaseDate(models.Model):
     pub_date = models.DateTimeField(
         auto_now_add=True,
@@ -24,7 +26,7 @@ class Category(models.Model):
 
     name = models.CharField(
         verbose_name='Категория',
-        max_length=256,
+        max_length=leght,
         db_index=True
     )
     slug = models.SlugField(
@@ -44,7 +46,7 @@ class Category(models.Model):
 class Genre(models.Model):
     name = models.CharField(
         verbose_name='Жанр',
-        max_length=256,
+        max_length=leght,
         db_index=True
     )
     slug = models.SlugField(
@@ -65,7 +67,7 @@ class Title(models.Model):
 
     name = models.CharField(
         verbose_name='Произведение',
-        max_length=256,
+        max_length=leght,
         db_index=True
     )
     year = models.PositiveSmallIntegerField(
@@ -83,7 +85,6 @@ class Title(models.Model):
     )
     description = models.TextField(
         verbose_name='Описание',
-        max_length=300,
         blank=True,
     )
     genre = models.ManyToManyField(
