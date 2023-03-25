@@ -3,6 +3,8 @@ from rest_framework import routers
 
 from .views import UsersViewSet, create_user, get_jwt_token
 
+# Если удаляю просто отказывается работать
+
 app_name = 'users'
 
 router_v_1 = routers.DefaultRouter()

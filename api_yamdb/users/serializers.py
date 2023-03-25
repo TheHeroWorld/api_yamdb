@@ -36,9 +36,13 @@ class UserSerializer(serializers.ModelSerializer):
             'role'
         )
 
-    def validate_role(self, role):
-        req_user = self.context['request'].user
-        user = User.objects.get(username=req_user)
+    def validate(self, data):
+        user = self.context['request'].user
         if user.is_user:
-            role = user.role
-        return role
+            role = data.get('role')
+            if role:
+                # custom validation logic here
+                if role == 'admin':
+                    raise serializers.ValidationError("Users cannot have"
+                                                      "'admin' role.")
+        return data
